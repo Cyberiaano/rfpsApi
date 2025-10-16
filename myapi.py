@@ -1,5 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uuid, os, json
 from fastapi.staticfiles import StaticFiles
@@ -24,6 +24,11 @@ if os.path.exists(DATA_FILE):
         documents = json.load(f)
 else:
     documents = []
+
+# Redirect root to UI
+@app.get("/")
+def root():
+    return RedirectResponse(url="/static/UI.html")
 
 @app.get("/health")
 def health():
